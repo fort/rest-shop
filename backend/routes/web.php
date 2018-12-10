@@ -14,3 +14,15 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->post('/auth/login', 'AuthController@postLogin');
+
+$router->group(
+    ['middleware' => 'auth:api'], 
+    function() use ($router) {
+        $router->get('/me', function() {
+            $user = Auth::user();
+            return response()->json($user);
+        });
+    }
+);
