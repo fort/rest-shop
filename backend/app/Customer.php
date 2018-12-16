@@ -13,7 +13,7 @@ class Customer extends Model implements JWTSubject, AuthenticatableContract, Aut
 {
     use Authenticatable, Authorizable;
 
-    protected $table = 'oc_customer';
+    protected $table = 'customer';
     protected $primaryKey = 'customer_id';
 
     /**
