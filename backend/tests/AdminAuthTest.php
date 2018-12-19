@@ -9,7 +9,7 @@ class AdminAuthTest extends TestCase
     public function login()
     {
         $response = $this->call('POST', '/admin/auth/login',
-            AdminData::CREDENTIALS['valid']);
+            CREDENTIALS['admin']['valid']);
         $data = json_decode($response->content(), true);
         $this->assertArrayHasKey('token', $data);
         $this->token = $data['token'];
@@ -19,14 +19,14 @@ class AdminAuthTest extends TestCase
     public function test_adminAuthLoginOk()
     {
         $response = $this->call('POST', '/admin/auth/login',
-            AdminData::CREDENTIALS['valid']);
+            CREDENTIALS['admin']['valid']);
         $this->assertArrayHasKey('token', $response->original);
     }
 
     public function test_adminAuthLoginUsernameInvalidFailure()
     {
         $response = $this->call('POST', '/admin/auth/login',
-            AdminData::CREDENTIALS['invalid']['invalidUsername']);
+            CREDENTIALS['admin']['invalid']['invalidUsername']);
         $this->assertEquals(422, $response->status());
         $this->assertArrayHasKey('username', $response->original);
     }
@@ -34,13 +34,13 @@ class AdminAuthTest extends TestCase
     public function test_adminAuthLoginEmail404Failure()
     {
         $response = $this->call('POST', '/admin/auth/login',
-            AdminData::CREDENTIALS['invalid']['notfoundUsername']);
+            CREDENTIALS['admin']['invalid']['notfoundUsername']);
         $this->assertEquals(404, $response->status());
     }
 
     public function test_adminAuthLoginExpectUsernameFailure()
     {
-        $credentials = AdminData::CREDENTIALS['valid'];
+        $credentials = CREDENTIALS['admin']['valid'];
         unset($credentials['username']);
         $response = $this->call('POST', '/admin/auth/login',
             $credentials);
@@ -50,7 +50,7 @@ class AdminAuthTest extends TestCase
 
     public function test_adminAuthLoginExpectPwdFailure()
     {
-        $credentials = AdminData::CREDENTIALS['valid'];
+        $credentials = CREDENTIALS['admin']['valid'];
         unset($credentials['password']);
         $response = $this->call('POST', '/admin/auth/login',
             $credentials);
@@ -60,7 +60,7 @@ class AdminAuthTest extends TestCase
 
     public function test_adminAuthLoginExpectAllFailure()
     {
-        $credentials = AdminData::CREDENTIALS['valid'];
+        $credentials = CREDENTIALS['admin']['valid'];
         $response = $this->call('POST', '/admin/auth/login',
             []);
         $this->assertEquals(422, $response->status());

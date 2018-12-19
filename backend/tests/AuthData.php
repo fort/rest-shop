@@ -1,6 +1,23 @@
 <?php
-class ClientData {
-    const CREDENTIALS = [
+
+const CREDENTIALS = [
+    'admin' => [
+        'valid' => [
+            'username' => 'admin',
+            'password' => 'admin',
+        ],
+        'invalid' => [
+            'notfoundUsername' => [
+                'username' => 'somenotfoundusername',
+                'password' => 'admin'
+            ],
+            'invalidUsername' => [
+                'email' => 'dev@null',
+                'password' => 'admin'
+            ]
+        ]
+    ],
+    'client' => [
         'valid' => [
             'email' => 'antonio.dibbert@hotmail.com',
             'password' => 123456,
@@ -15,41 +32,5 @@ class ClientData {
                 'password' => 123456
             ]
         ],
-    ];
-}
-
-class AdminData {
-    const CREDENTIALS = [
-        'valid' => [
-            'username' => 'admin',
-            'password' => 'admin',
-        ],
-        'invalid' => [
-            'notfoundUsername' => [
-                'username' => 'somenotfoundusername',
-                'password' => 'admin'
-            ],
-            'invalidUsername' => [
-                'email' => 'dev@null',
-                'password' => 'admin'
-            ]
-        ]
-    ];
-}
-
-    const CREDENTIALS = [
-        'valid' => [
-            'username' => 'admin',
-            'password' => 'admin',
-        ],
-        'invalid' => [
-            'notfoundUsername' => [
-                'username' => 'somenotfoundusername',
-                'password' => 'admin'
-            ],
-            'invalidUsername' => [
-                'email' => 'dev@null',
-                'password' => 'admin'
-            ]
-        ]
-    ];
+    ]
+];
