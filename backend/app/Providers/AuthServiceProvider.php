@@ -31,16 +31,16 @@ class AuthServiceProvider extends ServiceProvider
         // the User instance via an API token or any other method necessary.
 
 
-        // пока не ясно где вызывается этот код
+        // idk where this code is used
 
-        $this->app['auth']->viaRequest('client', function ($request)
+        $this->app['auth']->viaRequest('api-client', function ($request)
         {
-          return \App\Customer::where('email', $request->input('email'))->first();
+          // return \App\Customer::where('email', $request->input('email'))->first();
         });
         
-        $this->app['auth']->viaRequest('admin', function ($request)
+        $this->app['auth']->viaRequest('api-admin', function ($request)
         {
-          return \App\User::where('email', $request->input('email'))->first();
+          // return \App\User::where('username', $request->input('username'))->first();
         });
     }
 }

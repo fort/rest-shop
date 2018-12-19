@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models\Client;
 
 use Illuminate\Auth\Authenticatable;
 use Laravel\Lumen\Auth\Authorizable;
@@ -32,6 +32,8 @@ class Customer extends Model implements JWTSubject, AuthenticatableContract, Aut
      */
     protected $hidden = [
         'password',
+        'ip',
+        'token',
     ];
 
     public function getJWTIdentifier()
@@ -41,6 +43,6 @@ class Customer extends Model implements JWTSubject, AuthenticatableContract, Aut
 
     public function getJWTCustomClaims()
     {
-        return [];
+        return ['client' => true];
     }
 }

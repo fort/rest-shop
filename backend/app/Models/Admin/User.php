@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models\Admin;
 
 use Illuminate\Auth\Authenticatable;
 use Laravel\Lumen\Auth\Authorizable;
@@ -22,6 +22,9 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
         'name', 'email',
     ];
 
+    protected $table = 'user';
+    protected $primaryKey = 'user_id';
+
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -38,6 +41,6 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
 
     public function getJWTCustomClaims()
     {
-        return [];
+        return ['admin' => true];
     }
 }

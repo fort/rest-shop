@@ -1,33 +1,43 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\JWTAuth;
+use Tymon\JWTAuth\Facades\JWTAuth as JWTA;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
-class AuthController extends Controller
+class AdminController extends Controller
 {
     /**
      * @var \Tymon\JWTAuth\JWTAuth
      */
     protected $jwt;
-
     public function __construct(JWTAuth $jwt)
     {
         $this->jwt = $jwt;
+        /*
+            [auth:protected] => Tymon\JWTAuth\Providers\Auth\Illuminate Object
+                [auth:protected] => Tymon\JWTAuth\JWTGuard Object
+                    ...
+                    [provider:protected] => Illuminate\Auth\EloquentUserProvider Object
+                        public function setModel($model)
+        */
+        $provider = Auth::getProvider()->setModel(\App\Models\Admin\User::class);
     }
 
-    public function postLogin(Request $request)
+    public function login(Request $request)
     {
         $this->validate($request, [
-            'email'    => 'required|email|max:255',
+            'username'    => 'required|max:20',
             'password' => 'required',
         ]);
 
         try {
-
-            if (! $token = $this->jwt->attempt($request->only('email', 'password'))) {
+            $credentials = $request->only('username', 'password');
+            if (! $token = $this->jwt->attempt($request->only('username', 'password'))) {
                 return response()->json(['user_not_found'], 404);
             }
 
