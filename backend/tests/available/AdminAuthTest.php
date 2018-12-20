@@ -1,41 +1,41 @@
 <?php
 
+
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AdminAuthTest extends TestCase
 {
+    use ApiTestCase;
     protected $token = null;
 
     public function login()
     {
         $response = $this->call('POST', '/admin/auth/login',
             CREDENTIALS['admin']['valid']);
-        $data = json_decode($response->content(), true);
-        $this->assertArrayHasKey('token', $data);
-        $this->token = $data['token'];
-        return $this->token;
+        $json = $this->jsonHasToken($response->content());
+        return $json['token'];
     }
 
     public function test_adminAuthLoginOk()
     {
         $response = $this->call('POST', '/admin/auth/login',
             CREDENTIALS['admin']['valid']);
-        $this->assertArrayHasKey('token', $response->original);
+        $this->jsonHasToken($response->content());
     }
 
     public function test_adminAuthLoginUsernameInvalidFailure()
     {
-        $response = $this->call('POST', '/admin/auth/login',
+        $result = $this->call('POST', '/admin/auth/login',
             CREDENTIALS['admin']['invalid']['invalidUsername']);
-        $this->assertEquals(422, $response->status());
-        $this->assertArrayHasKey('username', $response->original);
+        $this->assertResponseStatus(422);
+        $this->errorsHasKeys($result->content(), ['username']);
     }
 
     public function test_adminAuthLoginEmail404Failure()
     {
         $response = $this->call('POST', '/admin/auth/login',
             CREDENTIALS['admin']['invalid']['notfoundUsername']);
-        $this->assertEquals(404, $response->status());
+        $this->assertResponseStatus(404);
     }
 
     public function test_adminAuthLoginExpectUsernameFailure()
@@ -44,8 +44,10 @@ class AdminAuthTest extends TestCase
         unset($credentials['username']);
         $response = $this->call('POST', '/admin/auth/login',
             $credentials);
-        $this->assertEquals(422, $response->status());
-        $this->assertArrayHasKey('username', $response->original);
+        $this->assertResponseStatus(422);
+        $this->errorsHasKeys($response->content(), ['username']);
+        $this->assertSuccess($response->content(), false);
+
     }
 
     public function test_adminAuthLoginExpectPwdFailure()
@@ -54,8 +56,8 @@ class AdminAuthTest extends TestCase
         unset($credentials['password']);
         $response = $this->call('POST', '/admin/auth/login',
             $credentials);
-        $this->assertEquals(422, $response->status());
-        $this->assertArrayHasKey('password', $response->original);
+        $this->assertResponseStatus(422);
+        $this->errorsHasKeys($response->content(), ['password']);
     }
 
     public function test_adminAuthLoginExpectAllFailure()
@@ -63,15 +65,14 @@ class AdminAuthTest extends TestCase
         $credentials = CREDENTIALS['admin']['valid'];
         $response = $this->call('POST', '/admin/auth/login',
             []);
-        $this->assertEquals(422, $response->status());
-        $this->assertArrayHasKey('username', $response->original);
-        $this->assertArrayHasKey('password', $response->original);
+        $this->assertResponseStatus(422);
+        $this->errorsHasKeys($response->content(), ['password', 'username']);
     }
 
     public function test_adminMeOk()
     {
-        $this->login();
-        $response = $this->call('GET', '/admin/me?token=' . $this->token);
+        $token = $this->login();
+        $response = $this->call('GET', '/admin/me?token=' . $token);
         $data = json_decode($response->content(), true);
         $this->assertArrayHasKey('user_id', $response->original);
     }
