@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models\Admin;
 
 use Illuminate\Auth\Authenticatable;
 use Laravel\Lumen\Auth\Authorizable;
@@ -9,12 +9,9 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Customer extends Model implements JWTSubject, AuthenticatableContract, AuthorizableContract
+class User extends Model implements JWTSubject, AuthenticatableContract, AuthorizableContract
 {
     use Authenticatable, Authorizable;
-
-    protected $table = 'oc_customer';
-    protected $primaryKey = 'customer_id';
 
     /**
      * The attributes that are mass assignable.
@@ -22,8 +19,11 @@ class Customer extends Model implements JWTSubject, AuthenticatableContract, Aut
      * @var array
      */
     protected $fillable = [
-        'email',
+        'name', 'email',
     ];
+
+    protected $table = 'user';
+    protected $primaryKey = 'user_id';
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -41,6 +41,6 @@ class Customer extends Model implements JWTSubject, AuthenticatableContract, Aut
 
     public function getJWTCustomClaims()
     {
-        return [];
+        return ['admin' => true];
     }
 }

@@ -63,8 +63,10 @@ $app->singleton(
 //     App\Http\Middleware\ExampleMiddleware::class
 // ]);
 
+
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
+    'localization' => App\Http\Middleware\Localization::class,
 ]);
 
 /*
@@ -93,10 +95,12 @@ $app->register(App\Providers\AuthServiceProvider::class);
 |
 */
 
+
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
     require __DIR__.'/../routes/web.php';
+    require __DIR__.'/../routes/api/v1.php';
 });
 
 return $app;

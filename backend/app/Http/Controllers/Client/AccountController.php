@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\JWTAuth;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
-class AuthController extends Controller
+class AccountController extends Controller
 {
-    /**
-     * @var \Tymon\JWTAuth\JWTAuth
-     */
     protected $jwt;
 
     public function __construct(JWTAuth $jwt)
@@ -18,7 +17,7 @@ class AuthController extends Controller
         $this->jwt = $jwt;
     }
 
-    public function postLogin(Request $request)
+    public function login(Request $request)
     {
         $this->validate($request, [
             'email'    => 'required|email|max:255',

@@ -12,17 +12,8 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+	return [
+		'name' => env('API_NAME'),
+		'version' => env('API_VERSION')
+	];
 });
-
-$router->post('/auth/login', 'AuthController@postLogin');
-
-$router->group(
-    ['middleware' => 'auth:api'], 
-    function() use ($router) {
-        $router->get('/me', function() {
-            $user = Auth::user();
-            return response()->json($user);
-        });
-    }
-);

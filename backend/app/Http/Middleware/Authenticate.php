@@ -3,24 +3,26 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Auth\Factory as Auth;
+use Tymon\JWTAuth\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class Authenticate
 {
     /**
      * The authentication guard factory instance.
      *
-     * @var \Illuminate\Contracts\Auth\Factory
+     * @var \Tymon\JWTAuth\JWTAuth
      */
     protected $auth;
 
     /**
      * Create a new middleware instance.
      *
-     * @param  \Illuminate\Contracts\Auth\Factory  $auth
+     * @param  \Tymon\JWTAuth\JWTAuth  $auth
      * @return void
      */
-    public function __construct(Auth $auth)
+    public function __construct(JWTAuth $auth)
     {
         $this->auth = $auth;
     }
@@ -33,12 +35,14 @@ class Authenticate
      * @param  string|null  $guard
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle($request, Closure $next, $guard)
     {
-        if ($this->auth->guard($guard)->guest()) {
-            return response('Unauthorized.', 401);
+        try {
+            $this->auth->parseToken()->checkOrFail();
         }
-
+        catch (JWTException $e) {
+            throw $e;
+        }
         return $next($request);
     }
 }

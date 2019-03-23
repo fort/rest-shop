@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models\Client;
 
 use Illuminate\Auth\Authenticatable;
 use Laravel\Lumen\Auth\Authorizable;
@@ -9,9 +9,12 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Model implements JWTSubject, AuthenticatableContract, AuthorizableContract
+class Customer extends Model implements JWTSubject, AuthenticatableContract, AuthorizableContract
 {
     use Authenticatable, Authorizable;
+
+    protected $table = 'customer';
+    protected $primaryKey = 'customer_id';
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +22,7 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
      * @var array
      */
     protected $fillable = [
-        'name', 'email',
+        'email',
     ];
 
     /**
@@ -29,6 +32,8 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
      */
     protected $hidden = [
         'password',
+        'ip',
+        'token',
     ];
 
     public function getJWTIdentifier()
@@ -38,6 +43,6 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
 
     public function getJWTCustomClaims()
     {
-        return [];
+        return ['client' => true];
     }
 }

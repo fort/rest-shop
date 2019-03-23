@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => env('AUTH_GUARD', 'api'),
+        'guard' => env('AUTH_GUARD', 'api-client'),
     ],
 
     /*
@@ -35,9 +35,13 @@ return [
     */
 
     'guards' => [
-        'api' => [
+        'api-client' => [
             'driver' => 'jwt',
             'provider' => 'customer'
+        ],
+        'api-admin' => [
+            'driver' => 'jwt',
+            'provider' => 'user'
         ],
     ],
 
@@ -61,7 +65,11 @@ return [
     'providers' => [
         'customer' => [
             'driver' => 'eloquent',
-            'model'  => \App\Customer::class,
+            'model'  => \App\Models\Client\Customer::class,
+        ],
+        'user' => [
+            'driver' => 'eloquent',
+            'model'  => \App\Models\Admin\User::class,
         ],
     ],
 
