@@ -1,7 +1,6 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
-import { ProductModel } from "./models/product.model";
-import {ProductService} from "./services/product.service";
+
 
 @NgModule({
     declarations: [
@@ -10,7 +9,6 @@ import {ProductService} from "./services/product.service";
         CommonModule
     ],
     providers: [
-        ProductService
     ],
     exports: [
 
