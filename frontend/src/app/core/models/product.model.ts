@@ -15,5 +15,4 @@ export class ProductModel {
         this.options = product.options || [];
     }
 
-
 }

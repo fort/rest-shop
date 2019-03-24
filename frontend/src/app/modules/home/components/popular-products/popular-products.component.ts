@@ -1,5 +1,6 @@
 import {Component, OnInit} from "@angular/core";
-import {ProductService} from "../../../../core/services/product.service";
+import {IProduct, ProductService} from "../../../../core/services/product.service";
+import {ProductModel} from "../../../../core/models/product.model";
 
 @Component({
     selector: 'app-popular-products',
@@ -8,16 +9,21 @@ import {ProductService} from "../../../../core/services/product.service";
 })
 export class PopularProductsComponent implements OnInit {
 
-    public products;
+    products = [];
 
     constructor(private productService: ProductService) {
     }
 
     ngOnInit() {
-        this.productService.getPopularProducts()
-            .subscribe(products => {
+        this.productService.getAll()
+            .subscribe( (products: ProductModel[]) => {
                 this.products = products;
-            });
+            } );
+
+        // this.productService.getPopularProducts()
+        //     .subscribe(products => {
+        //         this.products = products;
+        //     });
     }
 
 }

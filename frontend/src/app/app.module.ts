@@ -5,6 +5,7 @@ import {AppComponent} from "./app.component";
 import {HomeModule} from "./modules/home/home.module";
 import {RouterModule, Routes} from "@angular/router";
 import {CoreModule} from "./core/core.module";
+import {HttpClientModule} from "@angular/common/http";
 
 const routes: Routes = [
     {
@@ -18,6 +19,7 @@ const routes: Routes = [
         AppComponent,
     ],
     imports: [
+        HttpClientModule,
         BrowserModule,
         HomeModule,
         CoreModule,
