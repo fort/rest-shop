@@ -39,7 +39,7 @@ const popularProducts: ProductModel[] = [
 
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root' // root is an alias for AppModule. Any another module can be used
 })
 export class ProductService {
 
