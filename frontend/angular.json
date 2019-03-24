@@ -28,7 +28,8 @@
                         ],
                         "styles": [
                             "src/styles.css",
-                            "src/assets/scss/styles.scss"
+                            "src/assets/scss/styles.scss",
+                            "node_modules/bootstrap/dist/css/bootstrap-grid.min.css"
                         ],
                         "scripts": []
                     },

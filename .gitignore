@@ -9,5 +9,5 @@ npm-debug.log
 #logs
 error_log
 access_log
-
+dist
 site/*
