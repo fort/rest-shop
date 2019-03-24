@@ -9,7 +9,7 @@ import {CoreModule} from "./core/core.module";
 const routes: Routes = [
     {
         path: '',
-        loadChildren: './modules/home/#HomeModule'
+        loadChildren: () => HomeModule
     },
 ];
 
