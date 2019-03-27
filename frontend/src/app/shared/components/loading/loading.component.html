@@ -1,0 +1,8 @@
+<ng-container *ngIf="!loading; else loadingTpl" >
+    <ng-content></ng-content>
+</ng-container>
+
+<ng-template #loadingTpl>
+    <div class="loading"></div>
+</ng-template>
+

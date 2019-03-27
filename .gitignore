@@ -12,3 +12,4 @@ access_log
 dist
 site/*
 angular7-example-app/
+angular-httpclient-app

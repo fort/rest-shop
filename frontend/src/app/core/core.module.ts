@@ -11,7 +11,6 @@ import {CommonModule} from "@angular/common";
     providers: [
     ],
     exports: [
-
     ]
 })
 export class CoreModule {
